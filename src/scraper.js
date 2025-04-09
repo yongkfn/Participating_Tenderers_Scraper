@@ -38,7 +38,7 @@ async function runScraper(options = {}) {
   console.log('Starting URA vacant sites scraper...');
   
   // Read the Excel file
-  const workbook = XLSX.readFile('uravacantsites_CNQC.xlsx');
+  const workbook = XLSX.readFile('./data/ura-vacant-sites_CNQC.xlsx');
   
   // Get locations from the sheet (appears to be just one sheet now)
   const sheetName = workbook.SheetNames[0]; // "CNQC Part 2024"
@@ -107,7 +107,7 @@ async function runScraper(options = {}) {
           }
           
           // Wait for the page to load completely
-          await page.waitForTimeout(5000); // Give it more time to fully load
+          await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
       
       // Find and click on the search bar (from your screenshot it appears to be in the top toolbar)
       // We'll try a few different selectors since we don't know the exact structure
@@ -239,7 +239,7 @@ async function runScraper(options = {}) {
                 }, location);
                 
                 // Wait a bit longer for this approach
-                await page.waitForTimeout(5000);
+                await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
                 
                 // Check if the URL approach seemed to work
                 const pageContent = await page.content();
@@ -293,7 +293,7 @@ async function runScraper(options = {}) {
         
           // Wait for the project details to load
           console.log('Waiting for project details to load...');
-          await page.waitForTimeout(5000);
+          await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
           
           if (debug) {
             await takeScreenshot(page, `${originalIndex}_project_details_page`);
@@ -824,7 +824,7 @@ async function runScraper(options = {}) {
           } else {
             // Brief pause before retry
             console.log(`Waiting before retry attempt ${attemptCount + 1}...`);
-            await page.waitForTimeout(5000);
+            await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
           }
         }
       }

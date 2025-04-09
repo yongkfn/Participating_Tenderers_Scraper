@@ -1,0 +1,28 @@
+{
+  "name": "participating_tenderers_scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/scraper.js",
+    "debug": "node src/scraper.js --debug",
+    "headless": "node src/scraper.js --headless",
+    "specific": "node src/scraper.js --start 0 --end 1 --debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yongkfn/Participating_Tenderers_Scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yongkfn/Participating_Tenderers_Scraper/issues"
+  },
+  "homepage": "https://github.com/yongkfn/Participating_Tenderers_Scraper#readme",
+  "dependencies": {
+    "puppeteer": "^24.6.0",
+    "xlsx": "^0.18.5"
+  }
+}
