@@ -95,7 +95,7 @@ async function runScraper(options = {}) {
       
         try {
           // Navigate to URA site
-          await page.goto('https://eservice.ura.gov.sg/maps/?service=GLSRELEASE&site=1045#', {
+          await page.goto('https://eservice.ura.gov.sg/maps/?service=GLSRELEASE', {
             waitUntil: 'networkidle2',
             timeout: 60000
           });
@@ -106,160 +106,60 @@ async function runScraper(options = {}) {
             await savePageHtml(page, `${originalIndex}_initial_page`);
           }
           
+
           // Wait for the page to load completely
-          await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
-      
-      // Find and click on the search bar (from your screenshot it appears to be in the top toolbar)
-      // We'll try a few different selectors since we don't know the exact structure
-          // Try to find and click the search input - using various possible selectors
-          const searchInputSelectors = [
-            'input[type="search"]', 
-            '.search-input', 
-            'input.search',
-            'input[placeholder*="Search"]',
-            // Additional selectors based on inspection of the site
-            '#searchBox',
-            '.searchBox',
-            'input[name="search"]',
-            '.searchbar input',
-            '.search-container input',
-            'input.textbox'
-          ];
+        await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000))); // Give it more time to fully load
+
+        console.log('Using XPath to find search input field...');
+
+        try {
+          // Use the provided XPath to find the search input element
+          const searchInputXPath = '//*[@id="us-s-txt"]';
           
-          console.log('Attempting to find search input field...');
+          // Wait for the element to be available
+          await page.waitForXPath(searchInputXPath, { timeout: 10000 });
           
-          // Take screenshot of the page showing the search area
-          if (debug) {
-            await takeScreenshot(page, `${originalIndex}_before_search`);
-          }
+          // Get the element
+          const [searchInput] = await page.$x(searchInputXPath);
           
-          let searchInputFound = false;
-          
-          // First approach: Try selectors one by one
-          for (const selector of searchInputSelectors) {
-            try {
-              const exists = await page.$(selector);
-              if (exists) {
-                await page.click(selector);
-                await page.waitForTimeout(500);
-                await page.type(selector, location, {delay: 100}); // Type slowly
-                await page.waitForTimeout(500);
-                await page.keyboard.press('Enter');
-                searchInputFound = true;
-                console.log(`Used search selector: ${selector}`);
-                
-                // Take a screenshot after entering search
-                if (debug) {
-                  await takeScreenshot(page, `${originalIndex}_after_search_input`);
-                }
-                
-                break;
-              }
-            } catch (err) {
-              console.log(`Failed with selector ${selector}: ${err.message}`);
-            }
-          }
-        
-          // If standard selectors failed, try more aggressive approaches
-          if (!searchInputFound) {
-            console.log('Standard selectors failed, trying alternative search methods...');
+          if (searchInput) {
+            console.log('Search input found, clicking and typing...');
             
-            try {
-              // Method 1: Try to find any input elements and click the first one
-              const allInputs = await page.$('input');
-              if (allInputs.length > 0) {
-                console.log(`Found ${allInputs.length} input elements, trying the first few...`);
-                
-                // Try the first 3 input elements (if available)
-                for (let i = 0; i < Math.min(3, allInputs.length); i++) {
-                  try {
-                    await allInputs[i].click({timeout: 1000});
-                    await allInputs[i].type(location);
-                    await page.keyboard.press('Enter');
-                    await page.waitForTimeout(2000);
-                    
-                    // Check if search results appeared
-                    const resultsAppeared = await page.evaluate(() => {
-                      return document.body.innerText.includes('results') || 
-                             document.body.innerText.includes('found') ||
-                             document.querySelector('.results') !== null;
-                    });
-                    
-                    if (resultsAppeared) {
-                      console.log(`Search successful using input element ${i}`);
-                      searchInputFound = true;
-                      break;
-                    }
-                  } catch (err) {
-                    console.log(`Failed with input element ${i}: ${err.message}`);
-                  }
-                }
-              }
-              
-              // Method 2: Try clicking on any search icons
-              if (!searchInputFound) {
-                const searchIcons = await page.$('button i[class*="search"], i[class*="search"], svg[class*="search"]');
-                if (searchIcons.length > 0) {
-                  console.log(`Found ${searchIcons.length} potential search icons, trying to click...`);
-                  
-                  for (let icon of searchIcons) {
-                    try {
-                      await icon.click({timeout: 1000});
-                      await page.waitForTimeout(500);
-                      
-                      // After clicking an icon, try to find input fields that might have appeared
-                      const visibleInputs = await page.$('input:not([type="hidden"])');
-                      for (let input of visibleInputs) {
-                        try {
-                          await input.type(location);
-                          await page.keyboard.press('Enter');
-                          searchInputFound = true;
-                          console.log('Search successful using icon click + input');
-                          break;
-                        } catch (err) {
-                          // Continue to next input
-                        }
-                      }
-                      
-                      if (searchInputFound) break;
-                    } catch (err) {
-                      // Continue to next icon
-                    }
-                  }
-                }
-              }
-              
-              // Method 3: Last resort - try to use URL with search parameter
-              if (!searchInputFound) {
-                console.log('Using URL navigation as fallback search method');
-                await page.evaluate((searchQuery) => {
-                  // This is a workaround - manually setting search parameters if UI elements are not found
-                  const urlWithQuery = `https://eservice.ura.gov.sg/maps/?service=GLSRELEASE&site=1045&search=${encodeURIComponent(searchQuery)}#`;
-                  window.location.href = urlWithQuery;
-                }, location);
-                
-                // Wait a bit longer for this approach
-                await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
-                
-                // Check if the URL approach seemed to work
-                const pageContent = await page.content();
-                if (pageContent.includes(location) || 
-                    pageContent.toLowerCase().includes('result') || 
-                    pageContent.toLowerCase().includes('search')) {
-                  console.log('URL search approach may have worked');
-                  searchInputFound = true;
-                }
-              }
-              
-              // Take a screenshot after all search attempts
-              if (debug) {
-                await takeScreenshot(page, `${originalIndex}_after_all_search_attempts`);
-              }
-              
-            } catch (err) {
-              console.error(`All search attempts failed: ${err.message}`);
-            }
+            // Click the input to focus it
+            await searchInput.click();
+            
+            // Clear any existing text
+            await searchInput.evaluate(el => el.value = '');
+            
+            // Type the location
+            await searchInput.type(location, { delay: 100 }); // Slight delay between keypresses
+            
+            console.log(`Typed "${location}" into search field, pressing Enter...`);
+            
+            // Press Enter to submit the search
+            await page.keyboard.press('Enter');
+            
+            // Wait for search results to load
+            await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
+            
+            console.log('Search submitted, waiting for results...');
+          } else {
+            console.error('Search input element found by XPath but could not be accessed');
+            throw new Error('Could not access search input element');
           }
+        } catch (error) {
+          console.error(`Error using search input: ${error.message}`);
+          
+          // Fallback to URL-based search if XPath fails
+          console.log('Falling back to URL-based search...');
+          await page.evaluate((searchLocation) => {
+            window.location.href = `https://eservice.ura.gov.sg/maps/?service=GLSRELEASE&site=1045&search=${encodeURIComponent(searchLocation)}`;
+          }, location);
+          await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5000)));
+        }
+
+// Take a screenshot after search
+await page.screenshot({ path: `screenshot_after_search_${originalIndex}.png` });
         
         // Wait for search results to appear (might be in a dropdown, list, or other UI element)
         await page.waitForTimeout(3000); // Wait for search results
