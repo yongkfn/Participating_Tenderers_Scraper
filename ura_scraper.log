@@ -1,0 +1,68 @@
+2025-04-21 13:49:54,670 - ERROR - Missing dependencies: Tesseract OCR (executable)
+2025-04-21 13:49:54,670 - ERROR - Please install them using: pip install -r requirements.txt
+2025-04-21 13:49:54,671 - ERROR - For Tesseract OCR, please visit: https://github.com/UB-Mannheim/tesseract/wiki
+2025-04-21 13:53:20,441 - INFO - All dependencies are properly installed
+2025-04-21 13:53:20,442 - ERROR - Excel file not found: C:\Users\Ansari\Downloads\ParticipatingTenderers.xlsx
+2025-04-21 13:53:20,442 - ERROR - Please ensure the Excel file exists or update the path
+2025-04-21 14:30:23,336 - INFO - All dependencies are properly installed
+2025-04-21 14:30:23,337 - ERROR - Excel file not found: CC:\Users\nikki\Documents\GitHub\Participating_Tenderers_Scraper\data\ParticipatingTenderers.xlsx
+2025-04-21 14:30:23,337 - ERROR - Please ensure the Excel file exists or update the path
+2025-04-21 14:30:38,423 - INFO - All dependencies are properly installed
+2025-04-21 14:30:38,424 - ERROR - Excel file not found: CC:\Users\nikki\Documents\GitHub\Participating_Tenderers_Scraper\data\ParticipatingTenderers.xlsx
+2025-04-21 14:30:38,424 - ERROR - Please ensure the Excel file exists or update the path
+2025-04-21 14:30:46,064 - INFO - All dependencies are properly installed
+2025-04-21 14:30:46,222 - INFO - Found 0 projects needing tenderer information
+2025-04-21 14:30:47,004 - INFO - ====== WebDriver manager ======
+2025-04-21 14:30:48,773 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:30:48,813 - INFO - About to download new driver from https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip
+2025-04-21 14:30:48,835 - INFO - Driver downloading response is 200
+2025-04-21 14:30:50,340 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:30:51,102 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:30:51,627 - INFO - Driver has been saved in cache [C:\Users\nikki\.wdm\drivers\chromedriver\win64\114.0.5735.90]
+2025-04-21 14:30:55,198 - ERROR - Error setting up Chrome driver: Message: unknown error: cannot find Chrome binary
+Stacktrace:
+Backtrace:
+	GetHandleVerifier [0x0045A813+48355]
+	(No symbol) [0x003EC4B1]
+	(No symbol) [0x002F5358]
+	(No symbol) [0x00311A9E]
+	(No symbol) [0x00310579]
+	(No symbol) [0x00340C55]
+	(No symbol) [0x0034093C]
+	(No symbol) [0x0033A536]
+	(No symbol) [0x003182DC]
+	(No symbol) [0x003193DD]
+	GetHandleVerifier [0x006BAABD+2539405]
+	GetHandleVerifier [0x006FA78F+2800735]
+	GetHandleVerifier [0x006F456C+2775612]
+	GetHandleVerifier [0x004E51E0+616112]
+	(No symbol) [0x003F5F8C]
+	(No symbol) [0x003F2328]
+	(No symbol) [0x003F240B]
+	(No symbol) [0x003E4FF7]
+	BaseThreadInitThunk [0x76D87BA9+25]
+	RtlInitializeExceptionChain [0x77C6C2EB+107]
+	RtlClearBits [0x77C6C26F+191]
+
+2025-04-21 14:30:55,199 - ERROR - Please make sure Chrome browser is installed
+2025-04-21 14:34:26,672 - INFO - All dependencies are properly installed
+2025-04-21 14:34:26,788 - INFO - Found 0 projects needing tenderer information
+2025-04-21 14:34:27,029 - INFO - ====== WebDriver manager ======
+2025-04-21 14:34:27,966 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:34:28,031 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:34:28,091 - INFO - There is no [win64] chromedriver "135.0.7049.95" for browser google-chrome "135.0.7049" in cache
+2025-04-21 14:34:28,091 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:34:28,148 - INFO - WebDriver version 135.0.7049.95 selected
+2025-04-21 14:34:28,150 - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.95/win32/chromedriver-win32.zip
+2025-04-21 14:34:28,150 - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.95/win32/chromedriver-win32.zip
+2025-04-21 14:34:28,173 - INFO - Driver downloading response is 200
+2025-04-21 14:34:28,812 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:34:28,958 - INFO - Driver has been saved in cache [C:\Users\nikki\.wdm\drivers\chromedriver\win64\135.0.7049.95]
+2025-04-21 14:34:30,488 - ERROR - Error in main function: Cannot save file into a non-existent directory: 'C:\Users\Ansari\Downloads'
+2025-04-21 14:36:10,386 - INFO - All dependencies are properly installed
+2025-04-21 14:36:10,503 - INFO - Found 0 projects needing tenderer information
+2025-04-21 14:36:10,748 - INFO - ====== WebDriver manager ======
+2025-04-21 14:36:11,510 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:36:11,544 - INFO - Get LATEST chromedriver version for google-chrome
+2025-04-21 14:36:11,563 - INFO - Driver [C:\Users\nikki\.wdm\drivers\chromedriver\win64\135.0.7049.95\chromedriver-win32/chromedriver.exe] found in cache
+2025-04-21 14:36:12,661 - ERROR - Error in main function: No engine for filetype: 'xlsx"'

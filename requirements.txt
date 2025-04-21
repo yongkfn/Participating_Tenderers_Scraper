@@ -1,0 +1,6 @@
+selenium>=4.10.0
+pandas>=2.0.0
+pillow>=9.5.0
+pytesseract>=0.3.10
+webdriver-manager>=4.0.1  # Optional but helps manage browser drivers
+openpyxl>=3.1.2  # Required for Excel file handling
